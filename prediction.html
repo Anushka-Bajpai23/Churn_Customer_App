@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard" class="logo">ChurnGuard Dashboard</a>
+        <nav class="nav">
+            <a href="/" class="nav-link">Logout</a>
+        </nav>
+    </header>
+    <main class="dashboard-container">
+        <div id="results-section" class="results-section">
+            <h2 class="section-title">Prediction Results</h2>
+            <div id="alerts-and-insights" class="alerts-container">
+                <div class="alert alert-{{ results.insights.risk.split(' ')[0].lower() }}">
+                    <h3>{{ results.insights.risk }}</h3>
+                    <p>{{ results.insights.message }}</p>
+                    <p><strong>Recommended Action:</strong> {{ results.insights.actions }}</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div id="churn-gauge-chart" class="chart-box"></div>
+                <div id="churn-bar-chart" class="chart-box"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Use Flask's tojson and safe filter to directly embed the JSON data
+        // We'll parse the data and layout from the dictionaries we saved in the session
+        const gaugeData = JSON.parse('{{ results.gauge_chart_data | tojson | safe }}');
+        const gaugeLayout = JSON.parse('{{ results.gauge_chart_layout | tojson | safe }}');
+        
+        const barDataArray = JSON.parse('{{ results.bar_chart_data | tojson | safe }}');
+        const barLayout = JSON.parse('{{ results.bar_chart_layout | tojson | safe }}');
+
+        const barData = barDataArray.map(d => JSON.parse(d));
+
+        Plotly.newPlot('churn-gauge-chart', [gaugeData], gaugeLayout);
+        Plotly.newPlot('churn-bar-chart', barData, barLayout);
+    </script>
+</body>
+</html>
