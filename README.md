@@ -1,10 +1,12 @@
 ChurnGuard - Customer Churn Prediction System
+
 A machine learning-powered web application for predicting customer churn and supporting retention strategies.
 
 Overview:
 ChurnGuard is a web-based customer churn prediction system developed as part of my machine learning and web development portfolio. This application demonstrates the integration of machine learning models with user-friendly web interfaces to solve real business problems.
 
 *Problem Statement: Customer churn is a critical business challenge where companies lose customers over time. Early prediction of at-risk customers can help businesses implement targeted retention strategies.
+
 *Solution: A Flask web application that uses machine learning to predict churn probability and provides actionable insights through an interactive dashboard.
 
 Technologies Used
